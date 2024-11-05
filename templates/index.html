@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Expense Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Expense Tracker</h1>
+    
+
+    <form action="{{ url_for('add_expense') }}" method="post">
+        <input type="text" name="description" placeholder="Description" required>
+        <input type="number" step="1" name="amount" placeholder="Amount" required>
+        <input type="text" name="category" placeholder="Category" required>
+        <button type="submit">Add Expense</button>
+    </form>
+    
+
+    <table>
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Category</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for expense in expenses %}
+            <tr>
+                <td>{{ expense.description }}</td>
+                <td>{{ expense.amount }}</td>
+                <td>{{ expense.category }}</td>
+                <td><a href="{{ url_for('delete_expense', id=expense.id) }}">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Spending by Category</h2>
+    <canvas id="expenseChart" width="400" height="400"></canvas>
+    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
